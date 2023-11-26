@@ -9,12 +9,18 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@reach/accordion": "^0.18.0",
+    "axios": "^1.6.2",
+    "cloudinary": "^1.41.0",
+    "dateformat": "^5.0.3",
     "next": "14.0.3",
     "next-auth": "^4.24.5",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "react-icons": "^4.12.0"
   },
   "devDependencies": {
+    "@tailwindcss/forms": "^0.5.7",
     "autoprefixer": "^10.0.1",
     "eslint": "^8",
     "eslint-config-next": "14.0.3",

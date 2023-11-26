@@ -1,0 +1,9 @@
+export const GET_USERS_POSTS_REQUEST = "GET_USERS_POSTS_REQUEST";
+export const GET_USERS_POSTS = "GET_USERS_POSTS";
+export const GET_TYPES = "GET_TYPES";
+export const GET_SINGLE_CITY = "GET_SINGLE_CITY";
+export const GET_LOCATION = "GET_LOCATION";
+export const GET_COUNTRY = "GET_COUNTRY";
+export const GET_POST_CATEGORY = "GET_POST_CATEGORY";
+export const GET_FORM_DATA = "GET_FORM_DATA";
+export const CREATE_NEW_POST = "CREATE_NEW_POST";
