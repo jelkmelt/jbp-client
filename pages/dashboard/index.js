@@ -7,15 +7,17 @@ import { useSession } from "next-auth/react";
 import { getUserPosts } from "../../context/postContext/postActions";
 import PostTableMobile from "../../components/PostTableMobile";
 
-export default function Dashboard(props) {
+export default function Dashboard() {
   const [{ userPosts }, postDispatch] = usePostState();
   const { data: session } = useSession();
 
+  const email = session?.user.email;
+
   useEffect(() => {
-    getUserPosts(postDispatch, props.email);
+    getUserPosts(postDispatch, email);
 
     // eslint-disable-next-line
-  }, [props.email]);
+  }, [email]);
   return (
     <div className="mt-3 min-h-[70vh]">
       <UserProfileHead session={session} />
@@ -37,20 +39,21 @@ export default function Dashboard(props) {
   );
 }
 
-export async function getServerSideProps(context) {
-  const session = await getSession(context);
+// export async function getServerSideProps(context) {
+//   const session = await getSession(context);
 
-  if (!session) {
-    return {
-      redirect: {
-        destination: "/login",
-      },
-    };
-  }
-  return {
-    props: {
-      expires: session.expires,
-      email: session.user.email,
-    },
-  };
-}
+//   if (!session) {
+//     return {
+//       redirect: {
+//         destination: "/login",
+//       },
+//     };
+//   }
+
+//   return {
+//     props: {
+//       expires: session.expires,
+//       email: session.user.email,
+//     },
+//   };
+// }
