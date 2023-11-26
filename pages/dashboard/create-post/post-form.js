@@ -3,8 +3,6 @@ import { GrClose } from "react-icons/gr";
 import { usePostState } from "../../../context/postContext/postState";
 import { getFormData } from "../../../context/postContext/postActions";
 import { useRouter } from "next/router";
-// import { v4 as uuidv4 } from "uuid";
-// import { getBase64 } from "../../../utils/utils";
 
 const PostForm = () => {
   const [, postDispatch] = usePostState();
@@ -23,10 +21,6 @@ const PostForm = () => {
     setState({ ...state, [e.target.name]: e.target.value });
 
   const handleImageChange = async (e) => {
-    // const id = uuidv4();
-    // getBase64(e.target.files[0], setState, id);
-    // e.target.value = '';
-
     if (e.target.files.length > 4) {
       return;
     }
