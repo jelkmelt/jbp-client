@@ -18,13 +18,13 @@ export default function Dashboard() {
   const { data: session } = useSession();
   const router = useRouter();
 
-  console.log("session", session);
+  // console.log("session", session);
 
   const token = session?.user.token;
 
   useEffect(() => {
-    getUserPosts(postDispatch, token);
-  }, [session]);
+    token && getUserPosts(postDispatch, token);
+  }, [token]);
 
   const handlePostDelete = async (postId) => {
     setIsDeleting(true);

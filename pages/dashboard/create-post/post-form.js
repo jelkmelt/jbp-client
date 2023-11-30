@@ -1,11 +1,15 @@
 import { useState, useRef } from "react";
 import { GrClose } from "react-icons/gr";
-import { usePostState } from "../../../context/postContext/postState";
-import { getFormData } from "../../../context/postContext/postActions";
+import { usePostState } from "@/context/postContext/postState";
+import { getFormData, getLocation } from "@/context/postContext/postActions";
 import { useRouter } from "next/router";
+import { getCitiesByState } from "@/utils/getCitiesByState";
 
 const PostForm = () => {
-  const [, postDispatch] = usePostState();
+  const [postState, postDispatch] = usePostState();
+  const postType = postState.postType;
+  const stateValue = postState.location?.[0].state;
+  const cityValue = postState.location?.[0].cities[0];
   const router = useRouter();
   const [state, setState] = useState({
     title: "",
@@ -16,6 +20,19 @@ const PostForm = () => {
     tou: false,
     images: [],
   });
+
+  const [selectedCities, setSelectedCities] = useState([cityValue]);
+
+  // useEffect(() => {
+  //   console.log("cities", selectedCities);
+  // }, [selectedCities]);
+
+  // console.log("postType", postType);
+  // console.log("cityValue", cityValue);
+
+  const similarCities = getCitiesByState(stateValue);
+
+  // console.log("similarCities", similarCities);
 
   const handleChange = (e) =>
     setState({ ...state, [e.target.name]: e.target.value });
@@ -70,6 +87,13 @@ const PostForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     delete state.tou;
+
+    getLocation(postDispatch, [
+      {
+        state: stateValue,
+        cities: selectedCities,
+      },
+    ]);
 
     // console.log("state", state);
 
@@ -238,6 +262,38 @@ const PostForm = () => {
             </div>
           )}
         </div>
+        {/* <div className="border-b border-gray-500 my-5"></div> */}
+        {postType === "local ad" && (
+          <div className="mt-10 mb-6 space-y-3">
+            <p className="text-base font-bold">Add Nearby Cities</p>
+            {similarCities.map((city) => (
+              <div key={city} className="flex items-start">
+                <div className="flex items-center h-5">
+                  <input
+                    id={city}
+                    type="checkbox"
+                    value={city}
+                    className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 default:opacity-50"
+                    defaultChecked={
+                      city.toLowerCase() === cityValue.toLowerCase()
+                    }
+                    disabled={city.toLowerCase() === cityValue.toLowerCase()}
+                    onChange={(e) =>
+                      setSelectedCities((prev) => [...prev, e.target.value])
+                    }
+                  />
+                </div>
+                <label
+                  htmlFor={city}
+                  className="ml-2 text-sm font-medium capitalize"
+                >
+                  {city}
+                </label>
+              </div>
+            ))}
+          </div>
+        )}
+
         <div className="flex items-start mb-6">
           <div className="flex items-center h-5">
             <input
