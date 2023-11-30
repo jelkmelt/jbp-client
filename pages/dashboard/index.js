@@ -8,7 +8,6 @@ import { getUserPosts } from "../../context/postContext/postActions";
 import PostTableMobile from "../../components/PostTableMobile";
 import axios from "axios";
 import { API_URL } from "@/config";
-import { useRouter } from "next/router";
 import DeleteModal from "@/components/DeleteModal";
 
 export default function Dashboard() {
@@ -16,7 +15,6 @@ export default function Dashboard() {
   const [showDeleteModal, setShowDeleteModal] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
   const { data: session } = useSession();
-  const router = useRouter();
 
   // console.log("session", session);
 
@@ -41,7 +39,7 @@ export default function Dashboard() {
     console.log("res", res.data);
     if (res.status === 200) {
       console.log("delete success");
-      router.reload();
+      getUserPosts(postDispatch, token);
     } else {
       console.log("delete error");
     }
