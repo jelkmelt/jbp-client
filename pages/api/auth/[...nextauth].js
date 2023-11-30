@@ -37,12 +37,13 @@ export const authOptions = {
 
         const data = await response.json();
 
-        // console.log("login data from backend", data);
+        console.log("login data from backend", data);
 
         if (response.ok) {
-          console.log("success", data);
+          // console.log("success", data);
           user.token = data.token;
           user.id = data.id;
+          user.role = data.role;
 
           return true;
         } else {
@@ -59,6 +60,7 @@ export const authOptions = {
         // console.log("jwt token", token);
         token.token = user.token;
         token.id = user.id;
+        token.role = user.role;
       }
 
       return token;
@@ -68,6 +70,7 @@ export const authOptions = {
       if (token) {
         session.user.token = token.token;
         session.user.id = token.id;
+        session.user.role = token.role;
       }
 
       return session;

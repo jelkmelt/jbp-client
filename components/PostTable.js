@@ -1,7 +1,8 @@
-import dateFormat from 'dateformat';
-import { FaEdit, FaTrash, FaEye, FaRedoAlt } from 'react-icons/fa';
+import Link from "next/link";
+import dateFormat from "dateformat";
+import { FaEdit, FaTrash, FaEye, FaRedoAlt } from "react-icons/fa";
 
-const PostTable = ({ posts }) => {
+const PostTable = ({ posts, setShowDeleteModal }) => {
   return (
     <div className="hidden md:block">
       {posts?.length === 0 ? (
@@ -13,16 +14,16 @@ const PostTable = ({ posts }) => {
           <thead>
             <tr>
               <th>Date</th>
-              <th style={{ minWidth: '150px' }}>Title</th>
+              <th style={{ minWidth: "150px" }}>Title</th>
               <th>City</th>
               <th>Catagory</th>
-              <th style={{ minWidth: '170px' }}>Action</th>
+              <th style={{ minWidth: "170px" }}>Action</th>
             </tr>
           </thead>
           <tbody>
-            {posts?.map(item => (
+            {posts?.map((item) => (
               <tr key={item._id}>
-                <td>{dateFormat(item.createdAt, 'dS mmmm, yyyy')}</td>
+                <td>{dateFormat(item.createdAt, "dS mmmm, yyyy")}</td>
                 <td className="whitespace-nowrap overflow-hidden text-ellipsis">
                   {item?.title}
                 </td>
@@ -30,16 +31,25 @@ const PostTable = ({ posts }) => {
                   {/* {item?.location?.length > 1
                 ? "Multiple city"
                 : item.location[0]?.name} */}
-                  city
+                  {/* city */}
+                  {item.city}
                 </td>
                 <td>{item.section}</td>
 
                 <td className="tableAction">
-                  <span>
+                  <button
+                    type="button"
+                    onClick={() => setShowDeleteModal(item)}
+                  >
                     <abbr title="Delete">
                       <FaTrash />
                     </abbr>
-                  </span>
+                  </button>
+                  {/* <span>
+                    <abbr title="Delete">
+                      <FaTrash />
+                    </abbr>
+                  </span> */}
 
                   <span>
                     <abbr title="Edit">
@@ -48,7 +58,11 @@ const PostTable = ({ posts }) => {
                   </span>
                   <span>
                     <abbr title="View">
-                      <FaEye />
+                      <Link
+                        href={`/posts/${item.city}/${item.category}/${item._id}`}
+                      >
+                        <FaEye />
+                      </Link>
                     </abbr>
                   </span>
                   <span>

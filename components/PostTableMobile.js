@@ -1,4 +1,4 @@
-import React from 'react';
+import Link from "next/link";
 
 const PostTableMobile = ({ posts }) => {
   return (
@@ -14,12 +14,14 @@ const PostTableMobile = ({ posts }) => {
               Posts
             </h1>
           </div>
-          {posts?.map(item => (
+          {posts?.map((item) => (
             <div key={item._id} className="my-2">
               <div className="flex gap-1 justify-between">
-                <h1 className="whitespace-nowrap overflow-hidden text-ellipsis font-semibold text-lg underline">
-                  {item?.title}
-                </h1>
+                <Link href={`/posts/${item.city}/${item.category}/${item._id}`}>
+                  <h1 className="whitespace-nowrap overflow-hidden text-ellipsis font-semibold text-lg underline">
+                    {item?.title}
+                  </h1>
+                </Link>
               </div>
             </div>
           ))}

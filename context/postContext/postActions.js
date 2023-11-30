@@ -2,23 +2,32 @@ import { API_URL } from "@/config";
 import * as ACTION from "./Types";
 import axios from "axios";
 
-export const getUserPosts = async (dispatch, user) => {
+export const getUserPosts = async (dispatch, token) => {
   try {
     dispatch({
       type: ACTION.GET_USERS_POSTS_REQUEST,
     });
 
-    const url = `${API_URL}/post/get/:userId`; //route will change, userId will be dynamic
+    const url = `${API_URL}/get/data`;
+
+    // const { data } = await axios.get(url, {
+    //   headers: {
+    //     user: user,
+    //   },
+    // });
 
     const { data } = await axios.get(url, {
       headers: {
-        user: user,
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
     });
     dispatch({
       type: ACTION.GET_USERS_POSTS,
-      payload: data.posts,
+      payload: data.data,
     });
+
+    // console.log("data", data.data);
   } catch (error) {
     // comeback and handle error case
     console.log(error);
