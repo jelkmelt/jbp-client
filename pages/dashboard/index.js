@@ -9,11 +9,16 @@ import PostTableMobile from "../../components/PostTableMobile";
 import axios from "axios";
 import { API_URL } from "@/config";
 import DeleteModal from "@/components/DeleteModal";
+import RenewModal from "@/components/RenewModal";
 
 export default function Dashboard() {
   const [{ userPosts }, postDispatch] = usePostState();
   const [showDeleteModal, setShowDeleteModal] = useState(null);
+  const [showRenewModal, setShowRenewModal] = useState(null);
+
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isRenewing, setIsRenewing] = useState(false);
+
   const { data: session } = useSession();
 
   // console.log("session", session);
@@ -48,6 +53,34 @@ export default function Dashboard() {
     setShowDeleteModal(null);
   };
 
+  const handlePostRenew = async (postId) => {
+    setIsRenewing(true);
+
+    const url = `${API_URL}/post/renew/${postId}`;
+
+    const res = await axios.post(
+      url,
+      {},
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    // console.log("res", res.data);
+    if (res.status === 200) {
+      console.log("renew success", res.data);
+      getUserPosts(postDispatch, token);
+    } else {
+      console.log("renew error", res.data);
+    }
+
+    setIsRenewing(false);
+    setShowRenewModal(null);
+  };
+
   return (
     <div className="mt-3 min-h-[70vh]">
       <UserProfileHead session={session} />
@@ -64,6 +97,7 @@ export default function Dashboard() {
           <PostTable
             posts={userPosts.posts}
             setShowDeleteModal={setShowDeleteModal}
+            setShowRenewModal={setShowRenewModal}
           />
           <PostTableMobile posts={userPosts.posts} />
         </div>
@@ -75,6 +109,15 @@ export default function Dashboard() {
           setShowDeleteModal={setShowDeleteModal}
           handlePostDelete={handlePostDelete}
           isDeleting={isDeleting}
+        />
+      )}
+
+      {showRenewModal && (
+        <RenewModal
+          showRenewModal={showRenewModal}
+          setShowRenewModal={setShowRenewModal}
+          handlePostRenew={handlePostRenew}
+          isRenewing={isRenewing}
         />
       )}
     </div>

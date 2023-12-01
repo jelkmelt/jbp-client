@@ -2,7 +2,7 @@ import Link from "next/link";
 import dateFormat from "dateformat";
 import { FaEdit, FaTrash, FaEye, FaRedoAlt } from "react-icons/fa";
 
-const PostTable = ({ posts, setShowDeleteModal }) => {
+const PostTable = ({ posts, setShowDeleteModal, setShowRenewModal }) => {
   return (
     <div className="hidden md:block">
       {posts?.length === 0 ? (
@@ -45,18 +45,14 @@ const PostTable = ({ posts, setShowDeleteModal }) => {
                       <FaTrash />
                     </abbr>
                   </button>
-                  {/* <span>
-                    <abbr title="Delete">
-                      <FaTrash />
-                    </abbr>
-                  </span> */}
-
-                  <span>
+                  <button type="button">
                     <abbr title="Edit">
-                      <FaEdit />
+                      <Link href={`/dashboard/edit-post/${item._id}`}>
+                        <FaEdit />
+                      </Link>
                     </abbr>
-                  </span>
-                  <span>
+                  </button>
+                  <button type="button">
                     <abbr title="View">
                       <Link
                         href={`/posts/${item.city}/${item.category}/${item._id}`}
@@ -64,12 +60,14 @@ const PostTable = ({ posts, setShowDeleteModal }) => {
                         <FaEye />
                       </Link>
                     </abbr>
-                  </span>
-                  <span>
+                  </button>
+                  {/* <span> */}
+                  <button type="button" onClick={() => setShowRenewModal(item)}>
                     <abbr title="Renew">
                       <FaRedoAlt />
                     </abbr>
-                  </span>
+                  </button>
+                  {/* </span> */}
                 </td>
               </tr>
             ))}
