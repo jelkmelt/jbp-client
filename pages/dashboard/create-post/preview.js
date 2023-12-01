@@ -29,14 +29,15 @@ const Preview = () => {
     const postType = state.postType;
     // const city = state.singleCity;
     const country = state.country;
-    const stateWithCity = state.location?.[0];
-    const location = [
-      {
-        country: country,
-        state: stateWithCity.state,
-        cities: stateWithCity.cities,
-      },
-    ];
+    const location = state.location;
+    // const stateWithCity = state.location?.[0];
+    // const location = [
+    //   {
+    //     country: country,
+    //     state: stateWithCity.state,
+    //     cities: stateWithCity.cities,
+    //   },
+    // ];
     const url = `${API_URL}/post/ad`;
     const values = {
       ...formValues,

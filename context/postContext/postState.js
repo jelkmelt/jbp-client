@@ -24,6 +24,7 @@ const PostProvider = (props) => {
     postType: "",
     singleCity: null,
     category: null,
+    location: null,
     formData: {
       title: "",
       description: "",

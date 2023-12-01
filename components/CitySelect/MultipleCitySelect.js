@@ -345,7 +345,7 @@ const MultipleCitySelect = () => {
 
   const [selectedLocations, setSelectedLocations] = useState([]);
 
-  console.log("selectedLocations", selectedLocations);
+  // console.log("selectedLocations", selectedLocations);
 
   const handleLocationChange = (location) => {
     const isSelected = selectedLocations.some(
@@ -455,7 +455,8 @@ const MultipleCitySelect = () => {
   };
 
   const handleLocationSelect = () => {
-    console.log("selectedLocations", selectedLocations);
+    // console.log("selectedLocations", selectedLocations);
+    getLocation(postDispatch, selectedLocations);
   };
 
   return (
@@ -543,15 +544,15 @@ const MultipleCitySelect = () => {
           </AccordionItem>
         </Accordion>
       ))}
-      {/* <Link href="/dashboard/create-post/select-category"> */}
-      <button
-        type="button"
-        className="mt-5 px-5 py-2 rounded-md bg-gray-500 text-white font-bold"
-        onClick={handleLocationSelect}
-      >
-        Continue
-      </button>
-      {/* </Link> */}
+      <Link href="/dashboard/create-post/select-category">
+        <button
+          type="button"
+          className="mt-5 px-5 py-2 rounded-md bg-gray-500 text-white font-bold"
+          onClick={handleLocationSelect}
+        >
+          Continue
+        </button>
+      </Link>
     </div>
   );
 };

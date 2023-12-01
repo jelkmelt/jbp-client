@@ -33,6 +33,15 @@ const postReducer = (state, action) => {
         ...state,
         location: action.payload,
       }; //could change
+    // case ACTION.GET_LOCATION:
+    //   return {
+    //     ...state,
+    //     location: {
+    //       country: action.payload.country,
+    //       state: action.payload.state,
+    //       cities: action.payload.cities,
+    //     },
+    //   };
     case ACTION.GET_COUNTRY:
       return {
         ...state,

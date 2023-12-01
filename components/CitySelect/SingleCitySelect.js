@@ -52,14 +52,20 @@ const SingleCitySelect = () => {
                             className="text-blue-600"
                             // onClick={() => getSingleCity(postDispatch, city)}
                             onClick={() => {
-                              getCountry(postDispatch, item.country.name);
-                              getLocation(postDispatch, [
-                                {
-                                  // country: item.country.name,
-                                  state: state.name,
-                                  cities: [city.routeLink],
-                                },
-                              ]);
+                              // getCountry(postDispatch, item.country.name);
+
+                              // getLocation(postDispatch, [
+                              //   {
+                              //     country: item.country.name,
+                              //     state: state.name,
+                              //     cities: [city.routeLink],
+                              //   },
+                              // ]);
+                              getLocation(postDispatch, {
+                                country: item.country.name,
+                                state: state.name,
+                                cities: [city.routeLink],
+                              });
                             }}
                           >
                             {city.name}

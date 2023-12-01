@@ -8,8 +8,13 @@ import { getCitiesByState } from "@/utils/getCitiesByState";
 const PostForm = () => {
   const [postState, postDispatch] = usePostState();
   const postType = postState.postType;
-  const stateValue = postState.location?.[0].state;
-  const cityValue = postState.location?.[0].cities[0];
+  // const stateValue = postState.location?.[0].state;
+  // const cityValue = postState.location?.[0].cities[0];
+
+  const countryValue = postState.location?.country;
+  const stateValue = postState.location?.state;
+  const cityValue = postState.location?.cities;
+
   const router = useRouter();
   const [state, setState] = useState({
     title: "",
@@ -21,18 +26,9 @@ const PostForm = () => {
     images: [],
   });
 
-  const [selectedCities, setSelectedCities] = useState([cityValue]);
-
-  // useEffect(() => {
-  //   console.log("cities", selectedCities);
-  // }, [selectedCities]);
-
-  // console.log("postType", postType);
-  // console.log("cityValue", cityValue);
+  const [selectedCities, setSelectedCities] = useState(cityValue);
 
   const similarCities = getCitiesByState(stateValue);
-
-  // console.log("similarCities", similarCities);
 
   const handleChange = (e) =>
     setState({ ...state, [e.target.name]: e.target.value });
@@ -88,12 +84,14 @@ const PostForm = () => {
     e.preventDefault();
     delete state.tou;
 
-    getLocation(postDispatch, [
-      {
-        state: stateValue,
-        cities: selectedCities,
-      },
-    ]);
+    postType === "local ad" &&
+      getLocation(postDispatch, [
+        {
+          country: countryValue,
+          state: stateValue,
+          cities: selectedCities,
+        },
+      ]);
 
     // console.log("state", state);
 
@@ -274,10 +272,12 @@ const PostForm = () => {
                     type="checkbox"
                     value={city}
                     className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 default:opacity-50"
-                    defaultChecked={
-                      city.toLowerCase() === cityValue.toLowerCase()
-                    }
-                    disabled={city.toLowerCase() === cityValue.toLowerCase()}
+                    defaultChecked={cityValue.includes(city)}
+                    disabled={cityValue.includes(city)}
+                    // defaultChecked={
+                    //   city.toLowerCase() === cityValue.toLowerCase()
+                    // }
+                    // disabled={city.toLowerCase() === cityValue.toLowerCase()}
                     onChange={(e) =>
                       setSelectedCities((prev) => [...prev, e.target.value])
                     }
