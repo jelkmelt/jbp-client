@@ -19,8 +19,6 @@ const Layout = ({ children }) => {
 
     return (
       <>
-        {/* <div className="">sidebar</div>
-        <div className="">header</div> */}
         <AdminLayout>
           <main className="">{children}</main>
         </AdminLayout>

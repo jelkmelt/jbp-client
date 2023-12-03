@@ -3,7 +3,7 @@ import useToggle from "@/hooks/useToggle";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import AdminSidebar from "./AdminSidebar";
-import Adminheader from "./AdminHeader";
+import AdminHeader from "./AdminHeader";
 import { sidebarLinks } from "./sidebarLinks";
 
 function AdminLayout({ children }) {
@@ -23,13 +23,13 @@ function AdminLayout({ children }) {
         navLinks={sidebarLinks}
       />
 
-      <div className="lg:flex-1 relative overflow-x-auto bg-gray-100">
-        <Adminheader
+      <div className="lg:flex-1 relative bg-gray-100">
+        <AdminHeader
           showSidebar={showSidebar}
           setShowSidebar={setShowSidebar}
         />
 
-        <div className="my-10 mx-2 lg:mx-7 ">
+        <div className="my-10 mx-2 lg:mx-7 min-h-[calc(100vh-68px)]">
           {/* <PageTitle /> */}
 
           <div className="">{children}</div>
