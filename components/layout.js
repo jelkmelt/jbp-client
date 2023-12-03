@@ -1,7 +1,33 @@
-import Navbar from './navbar';
-import Footer from './footer';
+import Navbar from "./navbar";
+import Footer from "./footer";
+import { useRouter } from "next/router";
+import AdminLayout from "./Admin/Layout";
 
 const Layout = ({ children }) => {
+  const { pathname } = useRouter();
+
+  // console.log("pathname", router.pathname.startsWith("/admin"));
+
+  if (pathname.startsWith("/admin")) {
+    if (pathname === "/admin/login") {
+      return (
+        <>
+          <main className="">{children}</main>
+        </>
+      );
+    }
+
+    return (
+      <>
+        {/* <div className="">sidebar</div>
+        <div className="">header</div> */}
+        <AdminLayout>
+          <main className="">{children}</main>
+        </AdminLayout>
+      </>
+    );
+  }
+
   return (
     <>
       <header>
