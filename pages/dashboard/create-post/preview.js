@@ -27,17 +27,8 @@ const Preview = () => {
     // const category = state.category.displayName;
     const category = state.category.routeLink;
     const postType = state.postType;
-    // const city = state.singleCity;
-    const country = state.country;
     const location = state.location;
-    // const stateWithCity = state.location?.[0];
-    // const location = [
-    //   {
-    //     country: country,
-    //     state: stateWithCity.state,
-    //     cities: stateWithCity.cities,
-    //   },
-    // ];
+
     const url = `${API_URL}/post/ad`;
     const values = {
       ...formValues,
@@ -45,7 +36,6 @@ const Preview = () => {
       category,
       location,
       postType,
-      // country,
       cost: 0, //could change
     };
 
@@ -91,10 +81,10 @@ const Preview = () => {
                 {state.formData.email}
               </button>
             )}
-            {state.formData.phoneNumber && (
+            {state.formData.number && (
               <button className="bg-green-300 px-3 py-1 rounded-sm text-white my-2 flex items-center gap-1">
                 <FaPhoneAlt />
-                {state.formData.phoneNumber}
+                {state.formData.number}
               </button>
             )}
           </div>
@@ -106,14 +96,28 @@ const Preview = () => {
               dangerouslySetInnerHTML={{ __html: state.formData.description }}
             />
             <ul className="mt-5">
-              <li className="font-semibold">
+              {/* <li className="font-semibold">
                 Contact Number:{" "}
                 <span className="font-normal">
                   {state.formData.phoneNumber}
                 </span>
-              </li>
+              </li> */}
+              {/* <li className="font-semibold">
+                Location:{" "}
+                <span className="font-normal">
+                  {state.location.map((value) => {
+                    return (
+                      <span>
+                        {value.country}
+                        {state.location.length > 1 && ", "}
+                      </span>
+                    );
+                  })}
+                </span>
+              </li> */}
               <li className="font-semibold">
-                Age: <span className="font-normal">{state.formData.age}</span>{" "}
+                Poster Age:{" "}
+                <span className="font-normal">{state.formData.age}</span>{" "}
               </li>
             </ul>
           </div>

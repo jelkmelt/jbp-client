@@ -11,9 +11,9 @@ const PostForm = () => {
   // const stateValue = postState.location?.[0].state;
   // const cityValue = postState.location?.[0].cities[0];
 
-  const countryValue = postState.location?.country;
-  const stateValue = postState.location?.state;
-  const cityValue = postState.location?.cities;
+  const countryValue = postState.location?.[0].country;
+  const stateValue = postState.location?.[0].state;
+  const cityValue = postState.location?.[0].cities?.[0];
 
   const router = useRouter();
   const [state, setState] = useState({
