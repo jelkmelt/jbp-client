@@ -26,7 +26,9 @@ const PostForm = () => {
     images: [],
   });
 
-  const [selectedCities, setSelectedCities] = useState(cityValue);
+  const [selectedCities, setSelectedCities] = useState([cityValue]);
+
+  // console.log("selectedCities", selectedCities);
 
   const similarCities = getCitiesByState(stateValue);
 
@@ -92,8 +94,6 @@ const PostForm = () => {
           cities: selectedCities,
         },
       ]);
-
-    // console.log("state", state);
 
     getFormData(postDispatch, state);
     router.push("/dashboard/create-post/preview");
