@@ -61,11 +61,13 @@ const SingleCitySelect = () => {
                               //     cities: [city.routeLink],
                               //   },
                               // ]);
-                              getLocation(postDispatch, {
-                                country: item.country.name,
-                                state: state.name,
-                                cities: [city.routeLink],
-                              });
+                              getLocation(postDispatch, [
+                                {
+                                  country: item.country.name,
+                                  state: state.name,
+                                  cities: [city.routeLink],
+                                },
+                              ]);
                             }}
                           >
                             {city.name}
