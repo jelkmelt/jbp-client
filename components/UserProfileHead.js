@@ -1,20 +1,20 @@
-import Link from 'next/link';
+import Link from "next/link";
 
 const UserProfileHead = ({ session }) => {
   if (!session) {
     return <div>Loading...</div>;
   }
-  const { name, email, image } = session.user;
+  const { name, email, image, credit } = session.user;
   return (
     <div>
       <div className="flex justify-center sm:justify-start items-center">
         <div className="flex items-center">
           <img src={image} alt="user" className="avatar" />
-          <div style={{ padding: '10px' }}>
+          <div style={{ padding: "10px" }}>
             <h5>{name}</h5>
             <h6>{email}</h6>
             <h6>
-              <strong>credit: 0</strong>
+              <strong>{`credit: ${credit}`}</strong>
             </h6>
           </div>
         </div>
@@ -24,9 +24,9 @@ const UserProfileHead = ({ session }) => {
               <button className="px-3 py-2 font-semibold bg-green-300 rounded-md">
                 Create new post
               </button>
-            </Link>{' '}
+            </Link>{" "}
             <Link href="/dashboard/buy-credit">
-              {' '}
+              {" "}
               <button className="px-3 py-2 font-semibold bg-gray-500 text-white rounded-md">
                 Buy Credit
               </button>
@@ -39,9 +39,9 @@ const UserProfileHead = ({ session }) => {
           <button className="px-3 py-2 font-semibold bg-green-300 rounded-md">
             Create new post
           </button>
-        </Link>{' '}
+        </Link>{" "}
         <Link href="/dashboard/buy-credit">
-          {' '}
+          {" "}
           <button className="px-3 py-2 font-semibold bg-gray-500 text-white rounded-md">
             Buy Credit
           </button>

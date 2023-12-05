@@ -1,3 +1,56 @@
+import { NextResponse } from "next/server";
+import { getToken } from "next-auth/jwt";
+
+export default async function middleware(req) {
+  const { pathname } = req.nextUrl;
+
+  // const secret = process.env.NEXTAUTH_SECRET;
+  // const token = await getToken({ req, secret });;
+  const token = await getToken({ req });
+
+  console.log("token from middleware", token?.role);
+
+  const isAdmin = token?.role === "admin";
+  const isUser = token?.role === "user";
+
+  //for admin
+  if (pathname.startsWith("/admin")) {
+    if (pathname !== "/admin/login") {
+      if (!isAdmin) {
+        const adminRedirectPath =
+          pathname === `/admin`
+            ? `/admin/login`
+            : `/admin/login?callback_url=${pathname}`;
+
+        return NextResponse.redirect(new URL(adminRedirectPath, req.url));
+      }
+    } else {
+      if (isAdmin) {
+        return NextResponse.redirect(new URL("/admin", req.url));
+      }
+    }
+  } else {
+    // for user
+    if (pathname !== "/login") {
+      if (!isUser) {
+        const userRedirectPath = `/login?callback_url=${pathname}`;
+
+        return NextResponse.redirect(new URL(userRedirectPath, req.url));
+      }
+    } else {
+      if (isUser) {
+        return NextResponse.redirect(new URL("/dashboard", req.url));
+      }
+    }
+  }
+
+  return NextResponse.next();
+}
+
+export const config = {
+  matcher: ["/dashboard/:path*", "/admin/:path*", "/login"],
+};
+
 // export { default } from "next-auth/middleware";
 
 // export const config = {
@@ -77,61 +130,3 @@
 // export const config = {
 //   matcher: ["/dashboard/:path*", "/admin/:path*"],
 // };
-
-import { NextRequest, NextResponse } from "next/server";
-import { getToken } from "next-auth/jwt";
-
-export default async function middleware(req) {
-  const { origin, pathname } = req.nextUrl;
-
-  // const secret = process.env.NEXTAUTH_SECRET;
-  // const token = await getToken({ req, secret });;
-  const token = await getToken({ req });
-
-  console.log("token from middleware", token?.role);
-
-  const isAdmin = token?.role === "admin";
-  const isUser = token?.role === "user";
-
-  //for admin
-  if (pathname.startsWith("/admin")) {
-    if (pathname !== "/admin/login") {
-      if (!isAdmin) {
-        const adminRedirectPath =
-          pathname === `/admin`
-            ? `/admin/login`
-            : `/admin/login?callback_url=${pathname}`;
-
-        // return NextResponse.redirect(adminRedirectPath);
-        return NextResponse.redirect(new URL(adminRedirectPath, req.url));
-      }
-    } else {
-      if (isAdmin) {
-        // return NextResponse.redirect(`${origin}/admin`);
-        return NextResponse.redirect(new URL("/admin", req.url));
-      }
-    }
-  } else {
-    // for user
-    if (pathname !== "/login") {
-      if (!isUser) {
-        // const userRedirectPath = `${origin}/login?callback_url=${pathname}`;
-        // return NextResponse.redirect(userRedirectPath);
-        const userRedirectPath = `/login?callback_url=${pathname}`;
-        // return NextResponse.redirect(userRedirectPath);
-        return NextResponse.redirect(new URL(userRedirectPath, req.url));
-      }
-    } else {
-      if (isUser) {
-        // return NextResponse.redirect(`${origin}`);
-        return NextResponse.redirect(new URL("/dashboard", req.url));
-      }
-    }
-  }
-
-  return NextResponse.next();
-}
-
-export const config = {
-  matcher: ["/dashboard/:path*", "/admin/:path*", "/login"],
-};

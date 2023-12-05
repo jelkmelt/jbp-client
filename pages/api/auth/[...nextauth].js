@@ -81,6 +81,7 @@ export const authOptions = {
           user.token = data.token;
           user.id = data.id;
           user.role = data.role;
+          user.credit = data.credit;
 
           // return user;
           return true;
@@ -107,6 +108,7 @@ export const authOptions = {
         token.token = user.token;
         token.id = user.id;
         token.role = user.role;
+        token.credit = user.credit;
       }
       // console.log("jwt token", token);
       return token;
@@ -117,6 +119,7 @@ export const authOptions = {
         session.user.token = token.token;
         session.user.id = token.id;
         session.user.role = token.role;
+        session.user.credit = token.credit;
       }
       // console.log("session token", session);
       return session;

@@ -27,7 +27,7 @@ export const getUserPosts = async (dispatch, token) => {
       payload: data.data,
     });
 
-    // console.log("data", data.data);
+    console.log("data", data);
   } catch (error) {
     // comeback and handle error case
     console.log(error);

@@ -23,6 +23,8 @@ export default function Dashboard() {
 
   // console.log("session", session);
 
+  // console.log("userPosts", userPosts);
+
   const token = session?.user.token;
 
   useEffect(() => {
