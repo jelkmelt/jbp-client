@@ -5,16 +5,22 @@ import { getFormData, getLocation } from "@/context/postContext/postActions";
 import { useRouter } from "next/router";
 import { getCitiesByState } from "@/utils/getCitiesByState";
 import { PER_CITY_COST } from "@/config";
+import useGetData from "@/hooks/useGetData";
+import toast from "react-hot-toast";
 
 const PostForm = () => {
   const [postState, postDispatch] = usePostState();
   const postType = postState.postType;
-  // const stateValue = postState.location?.[0].state;
-  // const cityValue = postState.location?.[0].cities[0];
 
   const countryValue = postState.location?.[0].country;
   const stateValue = postState.location?.[0].state;
   const cityValue = postState.location?.[0].cities?.[0];
+
+  const { data, isLoading, error } = useGetData({
+    path: "/get/user/updated/credit",
+  });
+
+  const credit = data?.credit;
 
   const router = useRouter();
   const [state, setState] = useState({
@@ -32,6 +38,8 @@ const PostForm = () => {
   console.log("selectedCities", selectedCities);
 
   const similarCities = getCitiesByState(stateValue);
+
+  const cost = (selectedCities.length * PER_CITY_COST).toFixed(2);
 
   const handleChange = (e) =>
     setState({ ...state, [e.target.name]: e.target.value });
@@ -98,7 +106,12 @@ const PostForm = () => {
     e.preventDefault();
     delete state.tou;
 
-    postType === "local ad" &&
+    if (postType === "local ad") {
+      if (credit < cost) {
+        toast.error("Insufficient credit");
+        return;
+      }
+
       getLocation(postDispatch, [
         {
           country: countryValue,
@@ -106,6 +119,16 @@ const PostForm = () => {
           cities: selectedCities,
         },
       ]);
+    }
+
+    // postType === "local ad" &&
+    //   getLocation(postDispatch, [
+    //     {
+    //       country: countryValue,
+    //       state: stateValue,
+    //       cities: selectedCities,
+    //     },
+    //   ]);
 
     getFormData(postDispatch, state);
     router.push("/dashboard/create-post/preview");
@@ -117,8 +140,6 @@ const PostForm = () => {
   const onWheel2 = (e) => wheel2.current.blur();
 
   // console.log("location", postState.location);
-
-  const cost = (selectedCities.length * PER_CITY_COST).toFixed(2);
 
   return (
     <div className="py-5">

@@ -10,12 +10,6 @@ export const getUserPosts = async (dispatch, token) => {
 
     const url = `${API_URL}/get/data`;
 
-    // const { data } = await axios.get(url, {
-    //   headers: {
-    //     user: user,
-    //   },
-    // });
-
     const { data } = await axios.get(url, {
       headers: {
         "Content-Type": "application/json",

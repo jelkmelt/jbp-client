@@ -1,10 +1,16 @@
+import useGetData from "@/hooks/useGetData";
 import Link from "next/link";
 
 const UserProfileHead = ({ session }) => {
+  const { data, isLoading, error } = useGetData({
+    path: "/get/user/updated/credit",
+  });
+
   if (!session) {
     return <div>Loading...</div>;
   }
-  const { name, email, image, credit } = session.user;
+  const { name, email, image } = session.user;
+
   return (
     <div>
       <div className="flex justify-center sm:justify-start items-center">
@@ -14,7 +20,11 @@ const UserProfileHead = ({ session }) => {
             <h5>{name}</h5>
             <h6>{email}</h6>
             <h6>
-              <strong>{`credit: ${credit}`}</strong>
+              <strong>
+                Credit: {isLoading && <span>Loading...</span>}
+                {data && <span>{data?.credit}</span>}
+                {error && <span>Error while loading credit</span>}
+              </strong>
             </h6>
           </div>
         </div>

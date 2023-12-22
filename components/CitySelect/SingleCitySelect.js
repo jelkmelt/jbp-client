@@ -53,14 +53,6 @@ const SingleCitySelect = () => {
                             // onClick={() => getSingleCity(postDispatch, city)}
                             onClick={() => {
                               // getCountry(postDispatch, item.country.name);
-
-                              // getLocation(postDispatch, [
-                              //   {
-                              //     country: item.country.name,
-                              //     state: state.name,
-                              //     cities: [city.routeLink],
-                              //   },
-                              // ]);
                               getLocation(postDispatch, [
                                 {
                                   country: item.country.name,

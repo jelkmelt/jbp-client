@@ -12,6 +12,8 @@ import { getLocation } from "@/context/postContext/postActions";
 import { sortByName } from "@/utils/utils";
 import data from "@/static/data";
 import { PER_CITY_COST } from "@/config";
+import toast from "react-hot-toast";
+import useGetData from "@/hooks/useGetData";
 
 const MultipleCitySelect = () => {
   const router = useRouter();
@@ -24,10 +26,22 @@ const MultipleCitySelect = () => {
     state.location || []
   );
 
+  const {
+    data: creditData,
+    isLoading,
+    error,
+  } = useGetData({
+    path: "/get/user/updated/credit",
+  });
+
   const cost = (
     selectedLocations.reduce((acc, current) => acc + current.cities.length, 0) *
     PER_CITY_COST
   ).toFixed(2);
+
+  const credit = creditData?.credit;
+
+  // console.log("credit", credit);
 
   const handleLocationChange = (location) => {
     const isSelected = selectedLocations.some(
@@ -145,13 +159,17 @@ const MultipleCitySelect = () => {
 
   const handleLocationSelect = () => {
     // console.log("selectedLocations", selectedLocations);
+    if (credit < cost) {
+      toast.error("Insufficent credit");
+      return;
+    }
     getLocation(postDispatch, selectedLocations);
     router.push("/dashboard/create-post/select-category");
   };
 
   return (
     <div className="py-5 min-h-[70vh]">
-      <p className="font-bold mb-2">{`Total: ${cost}`}</p>
+      <p className="font-bold mb-2">{`Total: $${cost}`}</p>
       {reorderedData.map((item) => (
         <Accordion
           collapsible

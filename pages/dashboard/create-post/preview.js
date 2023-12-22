@@ -8,6 +8,7 @@ import { usePostState } from "../../../context/postContext/postState";
 import Modal from "../../../components/Modal";
 import { API_URL } from "@/config";
 import { resetState } from "@/context/postContext/postActions";
+import toast from "react-hot-toast";
 // import Steps from "../../../components/Steps";
 // import FixStep from "../../../components/FixStep";
 
@@ -47,21 +48,49 @@ const Preview = () => {
     // resetState(postDispatch);
     // return;
 
-    const res = await axios.post(url, values, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    try {
+      const res = await axios.post(url, values, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-    console.log("res", res.data);
-    if (res.status === 200) {
-      Router.push("/dashboard/create-post/successfull");
-      resetState(postDispatch);
-    } else {
-      Router.push("/dashboard/create-post/publishing-error");
-      resetState(postDispatch);
+      console.log("res", res.data);
+
+      if (res.status === 200) {
+        Router.push("/dashboard/create-post/successfull");
+        resetState(postDispatch);
+      } else {
+        Router.push("/dashboard/create-post/publishing-error");
+        resetState(postDispatch);
+      }
+      // Router.push("/dashboard/create-post/successfull");
+      // resetState(postDispatch);
+    } catch (error) {
+      toast.error(error.response.data.error);
+      // Router.push("/dashboard/create-post/publishing-error");
+      // resetState(postDispatch);
+      // console.log("error", error.response.data.error);
     }
+
+    setBtnpending(false);
+
+    // const res = await axios.post(url, values, {
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     Authorization: `Bearer ${token}`,
+    //   },
+    // });
+
+    // console.log("res", res.data);
+    // if (res.status === 200) {
+    //   Router.push("/dashboard/create-post/successfull");
+    //   resetState(postDispatch);
+    // } else {
+    //   Router.push("/dashboard/create-post/publishing-error");
+    //   resetState(postDispatch);
+    // }
   };
 
   return (
