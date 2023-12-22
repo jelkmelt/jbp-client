@@ -7,3 +7,4 @@ export const GET_COUNTRY = "GET_COUNTRY";
 export const GET_POST_CATEGORY = "GET_POST_CATEGORY";
 export const GET_FORM_DATA = "GET_FORM_DATA";
 export const CREATE_NEW_POST = "CREATE_NEW_POST";
+export const RESET_STATE = "RESET_STATE";

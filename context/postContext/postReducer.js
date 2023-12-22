@@ -1,4 +1,6 @@
 import * as ACTION from "./Types";
+import { PER_CITY_COST } from "@/config";
+import { defaultState } from "./postState";
 
 const postReducer = (state, action) => {
   switch (action.type) {
@@ -32,6 +34,13 @@ const postReducer = (state, action) => {
       return {
         ...state,
         location: action.payload,
+        cost: (state.postType !== "free ad"
+          ? action.payload.reduce(
+              (acc, current) => acc + current.cities.length,
+              0
+            ) * PER_CITY_COST
+          : 0
+        ).toFixed(2),
       }; //could change
     // case ACTION.GET_LOCATION:
     //   return {
@@ -57,6 +66,8 @@ const postReducer = (state, action) => {
         ...state,
         formData: action.payload,
       };
+    case ACTION.RESET_STATE:
+      return defaultState;
     default:
       return state;
   }

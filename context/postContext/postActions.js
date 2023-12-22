@@ -76,4 +76,10 @@ export const getFormData = (dispatch, data) => {
   });
 };
 
+export const resetState = (dispatch) => {
+  dispatch({
+    type: ACTION.RESET_STATE,
+  });
+};
+
 export const createPost = (dispatch, data) => {};

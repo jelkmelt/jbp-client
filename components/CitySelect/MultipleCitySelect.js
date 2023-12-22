@@ -11,16 +11,23 @@ import { usePostState } from "@/context/postContext/postState";
 import { getLocation } from "@/context/postContext/postActions";
 import { sortByName } from "@/utils/utils";
 import data from "@/static/data";
+import { PER_CITY_COST } from "@/config";
 
 const MultipleCitySelect = () => {
   const router = useRouter();
-  const [, postDispatch] = usePostState();
+  const [state, postDispatch] = usePostState();
   const [canada, asia, australia, europe, africa, us, latin] = data;
   const reorderedData = [us, canada, europe, asia, australia, africa, latin];
 
-  const [selectedLocations, setSelectedLocations] = useState([]);
+  // const [selectedLocations, setSelectedLocations] = useState([]);
+  const [selectedLocations, setSelectedLocations] = useState(
+    state.location || []
+  );
 
-  // console.log("selectedLocations", selectedLocations);
+  const cost = (
+    selectedLocations.reduce((acc, current) => acc + current.cities.length, 0) *
+    PER_CITY_COST
+  ).toFixed(2);
 
   const handleLocationChange = (location) => {
     const isSelected = selectedLocations.some(
@@ -144,6 +151,7 @@ const MultipleCitySelect = () => {
 
   return (
     <div className="py-5 min-h-[70vh]">
+      <p className="font-bold mb-2">{`Total: ${cost}`}</p>
       {reorderedData.map((item) => (
         <Accordion
           collapsible
@@ -235,8 +243,9 @@ const MultipleCitySelect = () => {
 
       <button
         type="button"
-        className="mt-5 px-5 py-2 rounded-md bg-gray-500 text-white font-bold"
+        className="mt-5 px-5 py-2 rounded-md bg-gray-500 text-white font-bold disabled:opacity-50 disabled:pointer-events-none"
         onClick={handleLocationSelect}
+        disabled={selectedLocations.length < 1}
       >
         Continue
       </button>

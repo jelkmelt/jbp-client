@@ -7,6 +7,7 @@ import { FaRegEnvelope, FaPhoneAlt } from "react-icons/fa";
 import { usePostState } from "../../../context/postContext/postState";
 import Modal from "../../../components/Modal";
 import { API_URL } from "@/config";
+import { resetState } from "@/context/postContext/postActions";
 // import Steps from "../../../components/Steps";
 // import FixStep from "../../../components/FixStep";
 
@@ -28,6 +29,7 @@ const Preview = () => {
     const category = state.category.routeLink;
     const postType = state.postType;
     const location = state.location;
+    const cost = state.cost;
 
     const url = `${API_URL}/post/ad`;
     const values = {
@@ -36,12 +38,13 @@ const Preview = () => {
       category,
       location,
       postType,
-      cost: 0, //could change
+      cost, //could change
     };
 
     // console.log("location", location);
 
     // console.log("allValues", values);
+    // resetState(postDispatch);
     // return;
 
     const res = await axios.post(url, values, {
@@ -54,8 +57,10 @@ const Preview = () => {
     console.log("res", res.data);
     if (res.status === 200) {
       Router.push("/dashboard/create-post/successfull");
+      resetState(postDispatch);
     } else {
       Router.push("/dashboard/create-post/publishing-error");
+      resetState(postDispatch);
     }
   };
 

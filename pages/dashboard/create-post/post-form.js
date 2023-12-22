@@ -1,9 +1,10 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { GrClose } from "react-icons/gr";
 import { usePostState } from "@/context/postContext/postState";
 import { getFormData, getLocation } from "@/context/postContext/postActions";
 import { useRouter } from "next/router";
 import { getCitiesByState } from "@/utils/getCitiesByState";
+import { PER_CITY_COST } from "@/config";
 
 const PostForm = () => {
   const [postState, postDispatch] = usePostState();
@@ -28,7 +29,7 @@ const PostForm = () => {
 
   const [selectedCities, setSelectedCities] = useState([cityValue]);
 
-  // console.log("selectedCities", selectedCities);
+  console.log("selectedCities", selectedCities);
 
   const similarCities = getCitiesByState(stateValue);
 
@@ -82,6 +83,17 @@ const PostForm = () => {
     });
   };
 
+  const handleNearbyCities = (value) => {
+    // Check if the value is already selected
+    if (selectedCities.includes(value)) {
+      // If selected, remove it
+      setSelectedCities((prevValues) => prevValues.filter((v) => v !== value));
+    } else {
+      // If not selected, add it
+      setSelectedCities((prevValues) => [...prevValues, value]);
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     delete state.tou;
@@ -103,6 +115,10 @@ const PostForm = () => {
   const wheel2 = useRef();
   const onWheel = (e) => wheel.current.blur();
   const onWheel2 = (e) => wheel2.current.blur();
+
+  // console.log("location", postState.location);
+
+  const cost = (selectedCities.length * PER_CITY_COST).toFixed(2);
 
   return (
     <div className="py-5">
@@ -263,7 +279,10 @@ const PostForm = () => {
         {/* <div className="border-b border-gray-500 my-5"></div> */}
         {postType === "local ad" && (
           <div className="mt-10 mb-6 space-y-3">
-            <p className="text-base font-bold">Add Nearby Cities</p>
+            <p className="text-base font-bold">
+              Add Nearby Cities{" "}
+              <span className="font-normal">{`for $${cost}`}</span>
+            </p>
             {similarCities.map((city) => (
               <div key={city} className="flex items-start">
                 <div className="flex items-center h-5">
@@ -278,16 +297,17 @@ const PostForm = () => {
                     //   city.toLowerCase() === cityValue.toLowerCase()
                     // }
                     // disabled={city.toLowerCase() === cityValue.toLowerCase()}
-                    onChange={(e) =>
-                      setSelectedCities((prev) => [...prev, e.target.value])
-                    }
+                    // onChange={(e) =>
+                    //   setSelectedCities((prev) => [...prev, e.target.value])
+                    // }
+                    onChange={(e) => handleNearbyCities(e.target.value)}
                   />
                 </div>
                 <label
                   htmlFor={city}
                   className="ml-2 text-sm font-medium capitalize"
                 >
-                  {city}
+                  {`${city} - $${PER_CITY_COST}`}
                 </label>
               </div>
             ))}
