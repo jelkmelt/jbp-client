@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { GrClose } from "react-icons/gr";
 import { usePostState } from "@/context/postContext/postState";
 import { getFormData, getLocation } from "@/context/postContext/postActions";
@@ -172,15 +172,6 @@ const PostForm = () => {
         },
       ]);
     }
-
-    // postType === "local ad" &&
-    //   getLocation(postDispatch, [
-    //     {
-    //       country: countryValue,
-    //       state: stateValue,
-    //       cities: selectedCities,
-    //     },
-    //   ]);
 
     getFormData(postDispatch, state);
     router.push("/dashboard/create-post/preview");

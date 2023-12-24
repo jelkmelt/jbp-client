@@ -47,11 +47,8 @@ export default async function middleware(req) {
   return NextResponse.next();
 }
 
-// export const config = {
-//   matcher: ["/dashboard/:path*", "/admin/:path*", "/login"],
-// };
 export const config = {
-  matcher: ["/admin/:path*", "/login"],
+  matcher: ["/dashboard/:path*", "/admin/:path*", "/login"],
 };
 
 // export { default } from "next-auth/middleware";
