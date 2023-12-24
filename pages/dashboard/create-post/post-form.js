@@ -44,6 +44,53 @@ const PostForm = () => {
   const handleChange = (e) =>
     setState({ ...state, [e.target.name]: e.target.value });
 
+  // const handleImageChange = async (e) => {
+  //   if (e.target.files.length > 4) {
+  //     return;
+  //   }
+
+  //   const cloud_name = "da36wyomi";
+  //   const preset = "justbackpage";
+  //   const folder = "justbackpage";
+
+  //   let formData = new FormData();
+  //   Array.from(e.target.files).forEach((file) => {
+  //     formData.append("file", file);
+  //     formData.append("upload_preset", preset);
+  //     formData.append("cloud_name", cloud_name);
+  //     formData.append("folder", folder);
+
+  //     const imageUpload = async () => {
+  //       const res = await fetch(
+  //         `https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`,
+  //         {
+  //           method: "POST",
+  //           body: formData,
+  //         }
+  //       );
+
+  //       const data = await res.json();
+
+  //       if (res.ok) {
+  //         setState((prevState) => ({
+  //           ...prevState,
+  //           images: [
+  //             ...state.images,
+  //             {
+  //               public_id: data.public_id,
+  //               url: data.secure_url,
+  //             },
+  //           ],
+  //         }));
+  //       } else {
+  //         console.log("failed", data);
+  //       }
+  //     };
+
+  //     imageUpload();
+  //   });
+  // };
+
   const handleImageChange = async (e) => {
     if (e.target.files.length > 4) {
       return;
@@ -53,14 +100,14 @@ const PostForm = () => {
     const preset = "justbackpage";
     const folder = "justbackpage";
 
-    let formData = new FormData();
-    Array.from(e.target.files).forEach((file) => {
+    const uploadPromises = Array.from(e.target.files).map(async (file) => {
+      let formData = new FormData();
       formData.append("file", file);
       formData.append("upload_preset", preset);
       formData.append("cloud_name", cloud_name);
       formData.append("folder", folder);
 
-      const imageUpload = async () => {
+      try {
         const res = await fetch(
           `https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`,
           {
@@ -72,23 +119,28 @@ const PostForm = () => {
         const data = await res.json();
 
         if (res.ok) {
-          setState((prevState) => ({
-            ...prevState,
-            images: [
-              ...state.images,
-              {
-                public_id: data.public_id,
-                url: data.secure_url,
-              },
-            ],
-          }));
+          return {
+            public_id: data.public_id,
+            url: data.secure_url,
+          };
         } else {
-          console.log("failed", data);
+          console.log("Error uploading image:", data.error.message);
+          return null;
         }
-      };
-
-      imageUpload();
+      } catch (error) {
+        console.error("Error uploading image:", error);
+        return null;
+      }
     });
+
+    const uploadedImages = await Promise.all(uploadPromises);
+
+    // Remove null values (failed uploads) and update state
+    const filteredImages = uploadedImages.filter(Boolean);
+    setState((prevState) => ({
+      ...prevState,
+      images: [...state.images, ...filteredImages],
+    }));
   };
 
   const handleNearbyCities = (value) => {
@@ -287,7 +339,8 @@ const PostForm = () => {
                     onClick={() => {
                       console.log("clicked");
                       const filteredImage = state.images.filter(
-                        (image) => image.id !== item.id
+                        // (image) => image.id !== item.id
+                        (img) => img.public_id !== image.public_id
                       );
                       setState({ ...state, images: filteredImage });
                     }}
