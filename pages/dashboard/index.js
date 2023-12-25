@@ -103,7 +103,11 @@ export default function Dashboard() {
             setShowDeleteModal={setShowDeleteModal}
             setShowRenewModal={setShowRenewModal}
           />
-          <PostTableMobile posts={userPosts.posts} />
+          <PostTableMobile
+            posts={userPosts.posts}
+            setShowDeleteModal={setShowDeleteModal}
+            setShowRenewModal={setShowRenewModal}
+          />
         </div>
       )}
 
