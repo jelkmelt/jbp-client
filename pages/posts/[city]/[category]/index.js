@@ -9,11 +9,14 @@ const showPostList = ({ posts, params }) => {
   }
 
   return (
-    <div className="min-h-[70vh] py-2">
+    <div className="min-h-[70vh] py-2 space-y-5">
       {posts.data.length > 0 &&
         posts.data.map((item) => (
           <div key={item._id}>
-            <Link href={`/posts/${params.city}/${params.category}/${item._id}`}>
+            <Link
+              href={`/posts/${params.city}/${params.category}/${item._id}`}
+              className="hover:underline hover:text-yellow-600"
+            >
               {item.title}
             </Link>
           </div>
