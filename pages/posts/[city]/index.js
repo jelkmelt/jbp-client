@@ -20,7 +20,8 @@ const CityPage = ({ data, params }) => {
             {item.categories.map((list) => (
               <div key={list._id}>
                 <Link
-                  href={`/posts/${params.city}/${list.routeLink}`}
+                  // href={`/posts/${params.city}/${list.routeLink}`}
+                  href={`/terms?city=${params.city}&category=${list.routeLink}`}
                   className="hover:font-semibold hover:text-red-600 font-normal inline-block py-0.5"
                 >
                   {list.displayName}
