@@ -29,7 +29,8 @@ const SelectCategory = () => {
               {item.categories.map((cat) => (
                 <div key={cat._id}>
                   <Link
-                    href="/dashboard/create-post/post-form"
+                    // href="/dashboard/create-post/post-form"
+                    href="/dashboard/create-post/terms"
                     onClick={() => getCategory(postDispatch, cat)}
                   >
                     {cat.displayName}

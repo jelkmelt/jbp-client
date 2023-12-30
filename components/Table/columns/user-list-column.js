@@ -13,6 +13,14 @@ export const UserListColumn = [
   {
     Header: "Total Credit",
     accessor: "credit",
+    Cell: ({ row }) => (
+      <span className="">
+        {/* {!Number.isInteger(row.original.credit)
+          ? row.original.credit.toFixed(2)
+          : row.original.credit} */}
+        {row.original.credit.toFixed(2)}
+      </span>
+    ),
   },
   {
     Header: "Joined at",

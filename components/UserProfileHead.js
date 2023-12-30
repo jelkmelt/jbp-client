@@ -22,7 +22,7 @@ const UserProfileHead = ({ session }) => {
             <h6>
               <strong>
                 Credit: {isLoading && <span>Loading...</span>}
-                {data && <span>{data?.credit}</span>}
+                {data && <span>{data?.credit.toFixed(2)}</span>}
                 {error && <span>Error while loading credit</span>}
               </strong>
             </h6>
