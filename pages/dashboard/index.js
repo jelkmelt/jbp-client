@@ -1,14 +1,14 @@
-import PostTable from "../../components/PostTable";
-import UserProfileHead from "../../components/UserProfileHead";
-import { usePostState } from "./../../context/postContext/postState";
-import { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
-import { getUserPosts } from "../../context/postContext/postActions";
-import PostTableMobile from "../../components/PostTableMobile";
-import axios from "axios";
-import { API_URL } from "@/config";
-import DeleteModal from "@/components/DeleteModal";
-import RenewModal from "@/components/RenewModal";
+import PostTable from '../../components/PostTable';
+import UserProfileHead from '../../components/UserProfileHead';
+import { usePostState } from './../../context/postContext/postState';
+import { useEffect, useState } from 'react';
+import { useSession } from 'next-auth/react';
+import { getUserPosts } from '../../context/postContext/postActions';
+import PostTableMobile from '../../components/PostTableMobile';
+import axios from 'axios';
+import { API_URL } from '@/config';
+import DeleteModal from '@/components/DeleteModal';
+import RenewModal from '@/components/RenewModal';
 
 export default function Dashboard() {
   const [state, postDispatch] = usePostState();
@@ -24,40 +24,38 @@ export default function Dashboard() {
 
   // console.log("session", session);
 
-  console.log("userPosts", userPosts);
+  //console.log("userPosts", userPosts);
 
   const token = session?.user.token;
 
   useEffect(() => {
     token && getUserPosts(postDispatch, token);
     // token && getUserCredits(postDispatch, token);
-  }, [token]);
+  }, [postDispatch, token]);
 
-  const handlePostDelete = async (postId) => {
+  const handlePostDelete = async postId => {
     setIsDeleting(true);
 
     const url = `${API_URL}/post/delete/${postId}`;
 
     const res = await axios.delete(url, {
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
     });
 
-    console.log("res", res.data);
     if (res.status === 200) {
-      console.log("delete success");
       getUserPosts(postDispatch, token);
     } else {
-      console.log("delete error");
+      console.log('delete error');
     }
 
     setIsDeleting(false);
     setShowDeleteModal(null);
   };
 
-  const handlePostRenew = async (postId) => {
+  const handlePostRenew = async postId => {
     setIsRenewing(true);
 
     const url = `${API_URL}/post/renew/${postId}`;
@@ -67,7 +65,7 @@ export default function Dashboard() {
       {},
       {
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
       }
@@ -75,10 +73,9 @@ export default function Dashboard() {
 
     // console.log("res", res.data);
     if (res.status === 200) {
-      console.log("renew success", res.data);
       getUserPosts(postDispatch, token);
     } else {
-      console.log("renew error", res.data);
+      console.log('renew error');
     }
 
     setIsRenewing(false);

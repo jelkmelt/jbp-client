@@ -1,10 +1,11 @@
-import Layout from "../components/layout";
-import { SessionProvider } from "next-auth/react";
-import PostProvider from "../context/postContext/postState";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { useState } from "react";
-import { Toaster } from "react-hot-toast";
-import "../styles/globals.css";
+import Layout from '../components/layout';
+import { SessionProvider } from 'next-auth/react';
+import PostProvider from '../context/postContext/postState';
+import PaymentProvider from '@/context/payment/paymentState';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { useState } from 'react';
+import { Toaster } from 'react-hot-toast';
+import '../styles/globals.css';
 
 export default function App({
   Component,
@@ -22,9 +23,11 @@ export default function App({
       <QueryClientProvider client={queryClient}>
         <SessionProvider session={session}>
           <PostProvider>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
+            <PaymentProvider>
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+            </PaymentProvider>
           </PostProvider>
         </SessionProvider>
       </QueryClientProvider>
