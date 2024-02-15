@@ -1,19 +1,19 @@
-import { useState, useRef, useEffect } from "react";
-import axios from "axios";
-import { useRouter } from "next/router";
-import { useSession } from "next-auth/react";
-import { API_URL } from "@/config";
+import { useState, useRef, useEffect } from 'react';
+import axios from 'axios';
+import { useRouter } from 'next/router';
+import { useSession } from 'next-auth/react';
+import { API_URL } from '@/config';
 
 function EditPost() {
   const [fetchedPost, setFetchedPost] = useState(null);
   const [isFetching, setIsFetching] = useState(false);
   const router = useRouter();
   const [state, setState] = useState({
-    title: "",
-    description: "",
-    age: "",
-    email: "",
-    number: "",
+    title: '',
+    description: '',
+    age: '',
+    email: '',
+    number: '',
     // tou: false,
     images: [],
     // category: '',
@@ -38,30 +38,30 @@ function EditPost() {
       // console.log("res", res);
 
       if (res.status === 200) {
-        console.log("fetch success");
+        console.log('fetch success');
         setFetchedPost(res.data.data);
         setIsFetching(false);
       } else {
-        console.log("fetch error");
-        router.replace("/404");
+        console.log('fetch error');
+        router.replace('/404');
         setIsFetching(false);
       }
     };
 
     postId && getSinglePost();
-  }, [postId]);
+  }, [postId, router]);
 
   // console.log("fetched", fetchedPost);
 
   useEffect(() => {
     if (fetchedPost) {
-      setState((prevState) => ({
+      setState(prevState => ({
         ...prevState,
-        title: fetchedPost.title || "",
-        description: fetchedPost.description || "",
-        age: fetchedPost.age || "",
-        email: fetchedPost.email || "",
-        number: fetchedPost.number || "",
+        title: fetchedPost.title || '',
+        description: fetchedPost.description || '',
+        age: fetchedPost.age || '',
+        email: fetchedPost.email || '',
+        number: fetchedPost.number || '',
         images: fetchedPost.images || [],
       }));
     }
@@ -69,12 +69,12 @@ function EditPost() {
 
   // console.log("fetched", fetchedPost);
 
-  const handleChange = (e) =>
+  const handleChange = e =>
     setState({ ...state, [e.target.name]: e.target.value });
 
   // const handleSubmit = () => {};
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
     // delete state.tou;
 
@@ -82,26 +82,26 @@ function EditPost() {
 
     const res = await axios.post(url, state, {
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
     });
 
-    console.log("res", res.data);
+    console.log('res', res.data);
     if (res.status === 200) {
       router.push(
         `/posts/${fetchedPost.city}/${fetchedPost.category}/${fetchedPost._id}`
       );
     } else {
       // router.push("/dashboard/create-post/publishing-error");
-      console.log("error");
+      console.log('error');
     }
   };
 
   const wheel = useRef();
   const wheel2 = useRef();
-  const onWheel = (e) => wheel.current.blur();
-  const onWheel2 = (e) => wheel2.current.blur();
+  const onWheel = e => wheel.current.blur();
+  const onWheel2 = e => wheel2.current.blur();
 
   if (isFetching) {
     return (

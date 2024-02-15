@@ -1,18 +1,18 @@
 const products = [
-  {
-    id: 1,
-    name: 'Buy credit',
-    price: 5,
-    currency: 'USD',
-    description: 'Buy credit for place premium ad',
-  },
-  {
-    id: 2,
-    name: 'Buy credit',
-    price: 7,
-    currency: 'USD',
-    description: 'Buy credit for place premium ad',
-  },
+  // {
+  //   id: 1,
+  //   name: 'Buy credit',
+  //   price: 5,
+  //   currency: 'USD',
+  //   description: 'Buy credit for place premium ad',
+  // },
+  // {
+  //   id: 2,
+  //   name: 'Buy credit',
+  //   price: 7,
+  //   currency: 'USD',
+  //   description: 'Buy credit for place premium ad',
+  // },
   {
     id: 3,
     name: 'Buy credit',

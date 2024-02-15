@@ -1,5 +1,6 @@
 import * as actionTypes from './paymentTypes';
 import axios from 'axios';
+import { API_URL } from '@/config';
 
 export const grabIntendData = (data, dispatch) => {
   dispatch({
@@ -15,11 +16,14 @@ export const clearIntendData = dispatch => {
 };
 
 export const createPaymentIntend = async (data, dispatch) => {
+  console.log(data);
   try {
     dispatch({
       type: actionTypes.CREATE_INTEND_REQUEST,
     });
-    const res = await axios.post('url', data);
+    const res = await axios.post(`${API_URL}/create-payment-intend`, {
+      price_amount: data,
+    });
 
     dispatch({
       type: actionTypes.CREATE_INTEND_SUCCESSFULLY,

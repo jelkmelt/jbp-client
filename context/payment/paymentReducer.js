@@ -32,3 +32,5 @@ const paymentReducer = (state, action) => {
       return state;
   }
 };
+
+export default paymentReducer;
